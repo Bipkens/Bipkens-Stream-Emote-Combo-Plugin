@@ -442,6 +442,10 @@ function resetStreak() {
 
 function hideStreak() {
 
+    console.log(
+        "TIMER WYGASŁ - RESET COMBO"
+    );
+
     main.style.transition =
         "opacity 0.3s ease, transform 0.3s ease";
 
