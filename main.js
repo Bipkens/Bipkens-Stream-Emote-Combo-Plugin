@@ -459,6 +459,10 @@ function hideStreak() {
 
     }, 300);
 
+    resetStreak();
+
+    config.streakTimer = null;
+
 }
 
 // ============================================================
