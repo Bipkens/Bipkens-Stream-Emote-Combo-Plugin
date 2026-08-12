@@ -24,7 +24,9 @@ const config = {
     // 10000 = 10 sekund
     // 30000 = 30 sekund
     // 60000 = 60 sekund
-    displayTime: 10000,
+    displayTime: Number(
+    url.searchParams.get("displayTime") || 10000
+),
 
     // Wielkość emotki
     emoteSize: 80,
