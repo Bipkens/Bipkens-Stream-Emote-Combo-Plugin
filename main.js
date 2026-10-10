@@ -62,10 +62,15 @@ const config = {
 
 const main = document.getElementById("main");
 
+// Centrowanie BEZ transform: translate(-50%, -50%),
+// bo przy nieparzystych wymiarach rozmywa obraz (pół piksela).
+// Kontener ma pełną szerokość, wysokość 0 i align-items: center,
+// więc emotka centruje się w poziomie i w pionie na zadanej pozycji.
 main.style.position = "fixed";
 main.style.top = `${config.positionTop}%`;
-main.style.left = `${config.positionLeft}%`;
-main.style.transform = "translate(-50%, -50%)";
+main.style.left = `${config.positionLeft - 50}%`;
+main.style.width = "100%";
+main.style.height = "0";
 main.style.display = "flex";
 main.style.alignItems = "center";
 main.style.justifyContent = "center";
@@ -462,14 +467,17 @@ function hideStreak() {
     main.style.opacity = "0";
 
     main.style.transform =
-        "translate(-50%, -50%) scale(0.8)";
+        "scale(0.8)";
 
     setTimeout(() => {
 
         main.innerHTML = "";
 
+        main.style.transition =
+            "none";
+
         main.style.transform =
-            "translate(-50%, -50%) scale(1)";
+            "none";
 
     }, 300);
 
@@ -531,6 +539,9 @@ function displayStreak() {
     img.style.objectFit =
         "contain";
 
+    img.style.imageRendering =
+        "auto";
+
     // ================================================
     // LICZNIK
     // ================================================
@@ -559,7 +570,7 @@ function displayStreak() {
         "1";
 
     main.style.transform =
-        "translate(-50%, -50%) scale(0.7)";
+        "scale(0.7)";
 
     requestAnimationFrame(() => {
 
@@ -567,12 +578,12 @@ function displayStreak() {
             "transform 0.15s ease";
 
         main.style.transform =
-            "translate(-50%, -50%) scale(1.1)";
+            "scale(1.1)";
 
         setTimeout(() => {
 
             main.style.transform =
-                "translate(-50%, -50%) scale(1)";
+                "none";
 
         }, 150);
 
