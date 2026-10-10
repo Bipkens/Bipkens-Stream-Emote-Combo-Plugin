@@ -28,8 +28,12 @@ const config = {
     url.searchParams.get("displayTime") || 10000
 ),
 
-    // Wielkość emotki
-    emoteSize: 80,
+    // Wielkość emotki w px. Z URL: &emoteSize=128
+    // &emoteSize=auto = naturalny rozmiar obrazka
+    emoteSize:
+        url.searchParams.get("emoteSize") === "auto"
+            ? "auto"
+            : Number(url.searchParams.get("emoteSize") || 80),
 
     // Pozycja
     // Możesz później zmienić:
@@ -76,6 +80,21 @@ main.style.textShadow =
 main.style.opacity = "0";
 main.style.pointerEvents = "none";
 main.style.zIndex = "999999";
+
+// ============================================================
+// FFZ - NAJWIĘKSZA DOSTĘPNA WERSJA EMOTKI
+// ============================================================
+
+function ffzUrl(emote) {
+
+    const u =
+        emote.urls["4"] ||
+        emote.urls["2"] ||
+        emote.urls["1"];
+
+    return "https://" + u.split("//").pop();
+
+}
 
 // ============================================================
 // POBIERANIE EMOTEK
@@ -151,14 +170,7 @@ async function getEmotes() {
 
                         config.emotes.push({
                             name: emote.name,
-                            url:
-                                "https://" +
-                                (
-                                    emote.urls["2"] ||
-                                    emote.urls["1"]
-                                )
-                                .split("//")
-                                .pop()
+                            url: ffzUrl(emote)
                         });
 
                     }
@@ -199,14 +211,7 @@ async function getEmotes() {
 
                         config.emotes.push({
                             name: emote.name,
-                            url:
-                                "https://" +
-                                (
-                                    emote.urls["2"] ||
-                                    emote.urls["1"]
-                                )
-                                .split("//")
-                                .pop()
+                            url: ffzUrl(emote)
                         });
 
                     }
@@ -245,7 +250,7 @@ async function getEmotes() {
                 config.emotes.push({
                     name: emote.code,
                     url:
-                        `https://cdn.betterttv.net/emote/${emote.id}/2x`
+                        `https://cdn.betterttv.net/emote/${emote.id}/3x`
                 });
 
             }
@@ -255,7 +260,7 @@ async function getEmotes() {
                 config.emotes.push({
                     name: emote.code,
                     url:
-                        `https://cdn.betterttv.net/emote/${emote.id}/2x`
+                        `https://cdn.betterttv.net/emote/${emote.id}/3x`
                 });
 
             }
@@ -289,7 +294,7 @@ async function getEmotes() {
                 config.emotes.push({
                     name: emote.code,
                     url:
-                        `https://cdn.betterttv.net/emote/${emote.id}/2x`
+                        `https://cdn.betterttv.net/emote/${emote.id}/3x`
                 });
 
             }
@@ -323,7 +328,7 @@ async function getEmotes() {
                 config.emotes.push({
                     name: emote.name,
                     url:
-                        `https://cdn.7tv.app/emote/${emote.id}/2x.webp`
+                        `https://cdn.7tv.app/emote/${emote.id}/4x.webp`
                 });
 
             }
@@ -366,10 +371,15 @@ async function getEmotes() {
                     ) {
 
                         const file =
-                            emote.data.host.files.find(
-                                file =>
-                                    file.name.includes(".webp")
-                            ) ||
+                            emote.data.host.files
+                                .filter(
+                                    f =>
+                                        f.name.endsWith(".webp")
+                                )
+                                .sort(
+                                    (a, b) =>
+                                        b.width - a.width
+                                )[0] ||
                             emote.data.host.files[0];
 
                         config.emotes.push({
@@ -511,7 +521,9 @@ function displayStreak() {
         config.currentStreak.url;
 
     img.style.width =
-        `${config.emoteSize}px`;
+        config.emoteSize === "auto"
+            ? "auto"
+            : `${config.emoteSize}px`;
 
     img.style.height =
         "auto";
