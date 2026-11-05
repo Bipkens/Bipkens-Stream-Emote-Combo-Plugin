@@ -552,6 +552,17 @@ function displayStreak() {
     counter.textContent =
         `× ${config.currentStreak.count}`;
 
+    // Rozmiar napisu (było 48px z #main)
+    counter.style.fontSize =
+        "32px";
+
+    // Przesunięcie w dół względem środka emotki (px)
+    counter.style.position =
+        "relative";
+
+    counter.style.top =
+        "14px";
+
     // ================================================
     // DODANIE
     // ================================================
