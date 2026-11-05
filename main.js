@@ -561,7 +561,7 @@ function displayStreak() {
         "relative";
 
     counter.style.top =
-        "14px";
+        "24px";
 
     // ================================================
     // DODANIE
